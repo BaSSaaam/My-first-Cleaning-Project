@@ -209,6 +209,13 @@ WHERE percentage_laid_off = '';
 ALTER TABLE layoffs_staging
 MODIFY percentage_laid_off FLOAT;
 
+-- recieved an error as as all the values contain %
+
+UPDATE layoffs_staging
+SET percentage_laid_off = REPLACE(percentage_laid_off, '%', '');
+
+ALTER TABLE layoffs_staging
+MODIFY percentage_laid_off FLOAT;
 
 
 
