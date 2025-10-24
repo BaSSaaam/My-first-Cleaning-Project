@@ -191,6 +191,25 @@ and (percentage_laid_off is null or percentage_laid_off = '');
 
 select * from layoffs_staging where (total_laid_off is null or total_laid_off = '') ;
 
+-- While analyzing the data, I noticed that the columns `total_laid_off` and `percentage_laid_off` were stored as text. 
+-- This caused issues when trying to sort them using ORDER BY, since text is sorted alphabetically, not numerically.
+-- To fix this, I will convert both columns to FLOAT, as they contain decimal values.
+
+UPDATE layoffs_staging
+SET total_laid_off = NULL
+WHERE total_laid_off = '';
+
+ALTER TABLE layoffs_staging
+MODIFY total_laid_off FLOAT;
+
+UPDATE layoffs_staging
+SET percentage_laid_off = NULL
+WHERE percentage_laid_off = '';
+
+ALTER TABLE layoffs_staging
+MODIFY percentage_laid_off FLOAT;
+
+
 
 
 
